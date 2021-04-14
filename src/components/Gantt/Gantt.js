@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { gantt } from "dhtmlx-gantt";
-import "./material_skin.css";
+import 'dhtmlx-gantt/codebase/dhtmlxgantt.css';
+import './Gantt.css';
+
+//  import "./material_skin.css";
 
 export default class Gantt extends Component {
   constructor(props) {
@@ -77,7 +80,7 @@ export default class Gantt extends Component {
     gantt.config.xml_date = "%Y-%m-%d %H:%i";
     const { tasks } = this.props;
 
-    //Task 1
+    //Task 2
     function change_highlight(id, type) {
       var elements = document.querySelectorAll(
         '.gantt_task_row[task_id="' + gantt.$previous_id + '"]'
@@ -94,7 +97,7 @@ export default class Gantt extends Component {
       }
     });
 
-    //Task 2
+    //Task 3
     gantt.plugins({
       keyboard_navigation: true,
     });
@@ -114,7 +117,7 @@ export default class Gantt extends Component {
       "taskRow"
     );
 
-    // Task 3
+    // Task 5
     var left_date, right_date;
     gantt.attachEvent("onTaskDrag", function (id, mode, task, original) {
       left_date = task.start_date;
@@ -147,6 +150,43 @@ export default class Gantt extends Component {
       }
     };
 
+    //Task 5
+    // gantt.plugins({
+    //   auto_scheduling: true,
+    // });
+    // gantt.config.auto_types = true;
+    // gantt.config.auto_scheduling = true;
+    // gantt.config.auto_scheduling_compatibility = true;
+    // gantt.locale.labels.section_split = "Display";
+    // gantt.attachEvent("onBeforeTaskDrag", function (id, mode, e) {
+    //   let task = gantt.getTask(id);
+    //   console.log(tasks);
+    //   tasks.data.push({
+    //     id: 22,
+    //     text: task.text,
+    //     start_date: task.start_date,
+    //     duration: task.duration,
+    //     parent: task.parent,
+    //     progress: task.progress,
+    //     open: true,
+    //   });
+    //   gantt.render();
+    //   gantt.parse(tasks);
+    //   return true;
+    // });
+
+    // gantt.attachEvent("onAfterTaskDrag", function (id, mode, e) {
+    //   //   console.log("enddddddddddd", id);
+    //   //   let task = gantt.getTask(id);
+    //   gantt.deleteTask(22);
+    //   let removeIndex = tasks.data.map((item) => item.id).indexOf(22);
+
+    //   ~removeIndex && tasks.data.splice(removeIndex, 1);
+
+    //   gantt.render();
+    // });
+
+
     //Task 8
     gantt.plugins({
       undo: true,
@@ -163,6 +203,9 @@ export default class Gantt extends Component {
       ignore: ".gantt_task_line, .gantt_task_link",
       useKey: false,
     };
+
+    //row height
+    gantt.config.row_height = 25;
 
     gantt.init(this.ganttContainer);
     this.initGanttDataProcessor();
