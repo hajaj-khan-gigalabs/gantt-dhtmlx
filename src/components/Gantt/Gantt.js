@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { gantt } from "dhtmlx-gantt";
-import 'dhtmlx-gantt/codebase/dhtmlxgantt.css';
-import './Gantt.css';
+import "dhtmlx-gantt/codebase/dhtmlxgantt.css";
+import "./Gantt.css";
 
 //  import "./material_skin.css";
 
@@ -117,6 +117,33 @@ export default class Gantt extends Component {
       "taskRow"
     );
 
+    //Task 4
+    gantt.plugins({
+      marker: true,
+    });
+    var marker;
+    gantt.attachEvent("onBeforeTaskDrag", function (id, mode, e) {
+      var task = gantt.getTask(id);
+      var dateToStr = task.end_date;
+      marker = gantt.addMarker({
+        start_date: dateToStr,
+        css: "marker-test",
+        text: "Now",
+        title: "Marker",
+      });
+      return true;
+    });
+    gantt.attachEvent("onTaskDrag", function (id, mode, task, original) {
+      gantt.getMarker(marker).start_date = task.end_date;
+      gantt.updateMarker(marker);
+      gantt.render();
+    });
+
+    gantt.attachEvent("onAfterTaskDrag", function (id, mode, e) {
+      gantt.deleteMarker(marker);
+      gantt.render();
+    });
+
     // Task 5
     var left_date, right_date;
     gantt.attachEvent("onTaskDrag", function (id, mode, task, original) {
@@ -150,7 +177,7 @@ export default class Gantt extends Component {
       }
     };
 
-    //Task 5
+    //Task 6
     // gantt.plugins({
     //   auto_scheduling: true,
     // });
@@ -185,7 +212,6 @@ export default class Gantt extends Component {
 
     //   gantt.render();
     // });
-
 
     //Task 8
     gantt.plugins({

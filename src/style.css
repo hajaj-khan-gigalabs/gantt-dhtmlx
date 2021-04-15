@@ -7,3 +7,7 @@
 .weekend {
   background: orange !important;
 }
+.marker-test{
+  background: none !important;
+  border-left: 2px dotted black;
+}
