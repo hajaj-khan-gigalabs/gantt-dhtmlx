@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Gantt from "./components/Gantt";
 import Toolbar from "./components/Toolbar";
 import MessageArea from "./components/MessageArea";
-import taskData from './data.json';
+import taskData from "./data.json";
 import "./style.css";
 
 const data = taskData;

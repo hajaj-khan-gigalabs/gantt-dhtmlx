@@ -7,7 +7,33 @@
 .weekend {
   background: orange !important;
 }
-.marker-test{
+.marker-test {
   background: none !important;
   border-left: 2px dotted black;
+}
+.task_class {
+  border-radius: 5px;
+  height: 17px !important;
+}
+/* .gantt_task_line {
+  background-color: #969996 !important;
+} */
+.gantt_task_cell {
+  border-right: none !important;
+}
+.gantt_grid_data .gantt_cell {
+  border-right: 1px solid #ebebeb !important;
+}
+
+.gantt_cell_left {
+  border-left: 1px solid #ebebeb !important;
+}
+.gantt_cell_right {
+  border-right: 1px solid #ebebeb !important;
+}
+.gantt_row.odd,
+.gantt_task_row.odd,
+.gantt_row,
+.gantt_task_row {
+  border: none !important;
 }
