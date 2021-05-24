@@ -52,6 +52,19 @@ export default class Gantt extends Component {
     gantt.ext.zoom.setLevel(value);
   }
 
+  componentWillReceiveProps(someProp) {
+    this.props = someProp;
+    const { zoom, gridFlag } = this.props;
+
+    this.setZoom(zoom);
+    this.showHideGrid(gridFlag);
+  }
+
+  showHideGrid(value) {
+    gantt.config.show_grid = value;
+    gantt.render();
+  }
+
   initGanttDataProcessor() {
     /**
      * type: "task"|"link"
@@ -80,51 +93,102 @@ export default class Gantt extends Component {
     gantt.config.xml_date = "%Y-%m-%d %H:%i";
     const { tasks } = this.props;
 
-    gantt.config.columns.push({
-      name: "invisible_field",
-      width: 1,
-      template: function (task) {
-        var invis =
-          "<i class='invisible_task' style='margin-left:" +
-          gantt.config.grid_width +
-          "px'></i>";
-        return invis;
-      },
+    gantt.config.columns = [
+      { name: "text", label: "Task name", width: 180, tree: true },
+      { name: "start_date", label: "Start date", width: 120, align: "center" },
+      { name: "end_date", label: "Due date", width: 120, align: "center" },
+      { label: "Predecessors", width: 100 },
+      { name: "add", label: "", width: 44 },
+    ];
+
+    //enable colum reordring
+    gantt.config.reorder_grid_columns = true;
+
+    // for task vertically move from timeline
+    // gantt.config.columns.push({
+    //   name: "invisible_field",
+    //   width: 1,
+    //   template: function (task) {
+    //     var invis =
+    //       "<i class='invisible_task' style='margin-left:" +
+    //       gantt.config.grid_width +
+    //       "px'></i>";
+    //     return invis;
+    //   },
+    // });
+
+    // gantt.templates.leftside_text = function (start, end, task) {
+    //   return "<i class='invisible_task'></i>";
+    // };
+
+    // gantt.config.order_branch = true;
+    // gantt.config.order_branch_free = true;
+
+    // gantt.config.fit_tasks = true;
+    // gantt.config.open_tree_initially = true;
+
+    // function invisible_mouse_control(element) {
+    //   if (mouseDown) {
+    //     let invis = document.getElementsByClassName("invisible_task");
+    //     for (let i = 0; i < invis.length; i++) {
+    //       invis[i].style["z-index"] = 0;
+    //     }
+    //   } else {
+    //     let invis = document.getElementsByClassName("invisible_task");
+    //     for (let i = 0; i < invis.length; i++) {
+    //       invis[i].style["z-index"] = 2;
+    //     }
+    //   }
+    // }
+
+    // var mouseDown = 0;
+    // document.body.onmousedown = function () {
+    //   mouseDown = 1;
+    //   invisible_mouse_control();
+    // };
+    // document.body.onmouseup = function () {
+    //   mouseDown = 0;
+    //   invisible_mouse_control();
+    // };
+
+    // for task vertically move fromm grid
+    var drag_id = null;
+    gantt.attachEvent("onRowDragStart", function (id, target, e) {
+      drag_id = id;
+      return true;
+    });
+    gantt.attachEvent("onRowDragEnd", function (id, target) {
+      drag_id = null;
+      gantt.render();
     });
 
-    gantt.templates.leftside_text = function (start, end, task) {
-      return "<i class='invisible_task'></i>";
+    gantt.templates.grid_row_class = function (start, end, task) {
+      if (
+        drag_id &&
+        task.id == drag_id &&
+        task.$level == gantt.getTask(drag_id).$level
+      ) {
+        return "drag_highlight";
+      }
+      return "";
+    };
+    gantt.templates.task_row_class = function (start, end, task) {
+      if (
+        drag_id &&
+        task.id == drag_id &&
+        task.$level == gantt.getTask(drag_id).$level
+      ) {
+        return "drag_highlight";
+      }
+      return "";
     };
 
     gantt.config.order_branch = true;
     gantt.config.order_branch_free = true;
-
-    gantt.config.fit_tasks = true;
     gantt.config.open_tree_initially = true;
 
-    function invisible_mouse_control(element) {
-      if (mouseDown) {
-        let invis = document.getElementsByClassName("invisible_task");
-        for (let i = 0; i < invis.length; i++) {
-          invis[i].style["z-index"] = 0;
-        }
-      } else {
-        let invis = document.getElementsByClassName("invisible_task");
-        for (let i = 0; i < invis.length; i++) {
-          invis[i].style["z-index"] = 2;
-        }
-      }
-    }
-
-    var mouseDown = 0;
-    document.body.onmousedown = function () {
-      mouseDown = 1;
-      invisible_mouse_control();
-    };
-    document.body.onmouseup = function () {
-      mouseDown = 0;
-      invisible_mouse_control();
-    };
+    // gantt.init("gantt_here");
+    // gantt.parse(<data>);
 
     //drag project with all its tasks
     gantt.config.drag_project = true;
@@ -305,15 +369,14 @@ export default class Gantt extends Component {
       return "task_class";
     };
 
-    gantt.templates.task_cell_class = function (task, date) {
-      // if (date.getDay() == 0 ) {
-      //   return "gantt_cell_left";
-      // }
-      if(date.getDay() == 6){
-        return "gantt_cell_right"
+    gantt.templates.timeline_cell_class = function (task, date) {
+      if (date.getDay() == 0 ) {
+        return "gantt_cell_left";
+      }
+      if (date.getDay() === 7) {
+        return "gantt_cell_right";
       }
     };
-
     gantt.init(this.ganttContainer);
     this.initGanttDataProcessor();
     gantt.parse(tasks);
@@ -327,8 +390,10 @@ export default class Gantt extends Component {
   }
 
   render() {
-    const { zoom } = this.props;
+    const { zoom, gridFlag } = this.props;
+
     this.setZoom(zoom);
+    this.showHideGrid(gridFlag);
     return (
       <div
         ref={(input) => {

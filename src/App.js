@@ -10,6 +10,7 @@ class App extends Component {
   state = {
     currentZoom: "Days",
     messages: [],
+    gridFlag: true,
   };
 
   addMessage(message) {
@@ -37,18 +38,25 @@ class App extends Component {
       currentZoom: zoom,
     });
   };
+  handleGridToggle = () => {
+    this.setState({ gridFlag: !this.state.gridFlag });
+  };
 
   render() {
-    const { currentZoom, messages } = this.state;
+    const { currentZoom, messages, gridFlag } = this.state;
     return (
       <div>
         <div className="zoom-bar">
           <Toolbar zoom={currentZoom} onZoomChange={this.handleZoomChange} />
         </div>
+        <div>
+          <button onClick={this.handleGridToggle}> Show and Hide Grid</button>
+        </div>
         <div className="gantt-container">
           <Gantt
             tasks={data}
             zoom={currentZoom}
+            gridFlag={gridFlag}
             onDataUpdated={this.logDataUpdate}
           />
         </div>

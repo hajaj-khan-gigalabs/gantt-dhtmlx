@@ -31,9 +31,21 @@
 .gantt_cell_right {
   border-right: 1px solid #ebebeb !important;
 }
-.gantt_row.odd,
 .gantt_task_row.odd,
-.gantt_row,
 .gantt_task_row {
   border: none !important;
+}
+.drag_highlight {
+  background: #22e8ee !important;
+}
+/* .gantt_column_drag_marker {
+  background: #22e8ee !important;
+} */
+.gantt_grid_head_cell_dragged {
+  background: #22e8ee !important;
+}
+.gantt_grid_target_marker {
+  background: rgba(62, 123, 230, 1) !important;
+  height: 100% !important;
+  z-index: 999;
 }
