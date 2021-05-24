@@ -370,12 +370,12 @@ export default class Gantt extends Component {
     };
 
     gantt.templates.timeline_cell_class = function (task, date) {
-      if (date.getDay() == 0 ) {
-        return "gantt_cell_left";
-      }
-      if (date.getDay() === 7) {
+      if (date.getDay() === 0 ) {
         return "gantt_cell_right";
       }
+      // if (date.getDay() === ) {
+      //   return "gantt_cell_right";
+      // }
     };
     gantt.init(this.ganttContainer);
     this.initGanttDataProcessor();
