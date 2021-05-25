@@ -268,6 +268,60 @@
       "open": true,
       "user": "0",
       "duration": 0
+    },
+    {
+      "id": 30,
+      "text": "New Product",
+      "start_date": "2021-07-10",
+      "type": "project",
+      "order": 30,
+      "open": true,
+      "duration": 168
+    },
+    {
+      "id": 31,
+      "text": "Discusion",
+      "start_date": "2021-07-10",
+      "order": 30,
+      "parent": 30,
+      "progress": 0.2,
+      "duration": 168
+    },
+    {
+      "id": 32,
+      "text": "Discusion 1",
+      "start_date": "2021-07-13",
+      "order": 30,
+      "parent": 30,
+      "progress": 0.2,
+      "duration": 168
+    },
+    {
+      "id": 33,
+      "text": "Discusion 2",
+      "start_date": "2021-07-15",
+      "order": 30,
+      "parent": 30,
+      "progress": 0.2,
+      "duration": 168
+    },
+    {
+      "id": 34,
+      "text": "Work Start",
+      "start_date": "2021-07-16",
+      "order": 30,
+      "parent": 30,
+      "progress": 0.2,
+      "duration": 168
+    },
+    {
+      "id": 35,
+      "text": "Hire Team",
+      "start_date": "2021-07-19",
+      "order": 30,
+      "parent": 30,
+      "progress": 0.2,
+      "duration": 168
     }
   ],
   "links": [

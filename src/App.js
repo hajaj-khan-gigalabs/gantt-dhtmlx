@@ -8,7 +8,7 @@ import "./style.css";
 const data = taskData;
 class App extends Component {
   state = {
-    currentZoom: "Days",
+    currentZoom: "week",
     messages: [],
     gridFlag: true,
   };

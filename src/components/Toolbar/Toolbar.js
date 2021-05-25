@@ -1,33 +1,44 @@
 import React, { Component } from "react";
 export default class Toolbar extends Component {
-  handleZoomChange = (e) => {
-    if (this.props.onZoomChange) {
-      this.props.onZoomChange(e.target.value);
+  constructor(props) {
+    super(props);
+    this.zoomValues = ["year", "quarter", "month", "week", "day"];
+    this.state = {
+      zoom: props.zoom,
+    };
+  }
+  handleChange = (e) => {
+    this.setState({ zoom: e.target.value });
+    this.props.onZoomChange(e.target.value);
+  };
+  zoomIn = (e) => {
+    let index = this.zoomValues.findIndex((x) => x === this.state.zoom);
+
+    if (index > 0 && index < 6) {
+      this.setState({ zoom: this.zoomValues[index - 1] });
+      this.props.onZoomChange(this.zoomValues[index - 1]);
     }
   };
-  render() {
-    const zoomRadios = ["Hours", "Days", "Months"].map((value) => {
-      const isActive = this.props.zoom === value;
-      return (
-        <label
-          key={value}
-          className={`radio-label ${isActive ? "radio-label-active" : ""}`}
-        >
-          <input
-            type="radio"
-            checked={isActive}
-            onChange={this.handleZoomChange}
-            value={value}
-          />
-          {value}
-        </label>
-      );
-    });
+  zoomOut = (e) => {
+    let index = this.zoomValues.findIndex((x) => x === this.state.zoom);
+    if (index > -1 && index < 4) {
+      this.setState({ zoom: this.zoomValues[index + 1] });
+      this.props.onZoomChange(this.zoomValues[index + 1]);
+    }
+  };
 
+  render() {
     return (
       <div className="tool-bar">
-        <b>Zooming: </b>
-        {zoomRadios}
+        <select value={this.state.zoom} onChange={this.handleChange}>
+          <option value="year">Years</option>
+          <option value="quarter">Quarters</option>
+          <option value="month">Months</option>
+          <option value="week">Weeks</option>
+          <option value="day">Days</option>
+        </select>
+        <button onClick={this.zoomIn}>+</button>
+        <button onClick={this.zoomOut}>-</button>
       </div>
     );
   }
