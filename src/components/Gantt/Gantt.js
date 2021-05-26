@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { gantt } from "dhtmlx-gantt";
 import "dhtmlx-gantt/codebase/dhtmlxgantt.css";
 import "./Gantt.css";
-
+import AddColumnBox from "./../modelboxes/add_column_box";
 //  import "./material_skin.css";
 
 export default class Gantt extends Component {
@@ -101,19 +101,6 @@ export default class Gantt extends Component {
     gantt.ext.zoom.setLevel(value);
   }
 
-  componentWillReceiveProps(someProp) {
-    this.props = someProp;
-    const { zoom, gridFlag } = this.props;
-
-    this.setZoom(zoom);
-    this.showHideGrid(gridFlag);
-  }
-
-  showHideGrid(value) {
-    gantt.config.show_grid = value;
-    gantt.render();
-  }
-
   initGanttDataProcessor() {
     /**
      * type: "task"|"link"
@@ -141,14 +128,37 @@ export default class Gantt extends Component {
   componentDidMount() {
     gantt.config.xml_date = "%Y-%m-%d %H:%i";
     const { tasks } = this.props;
+    var predecessors = { type: "predecessor", map_to: "auto" };
 
     gantt.config.columns = [
+      { name: "wbs", label: "№", width: 40, template: gantt.getWBSCode },
       { name: "text", label: "Task name", width: 180, tree: true },
-      { name: "start_date", label: "Start date", width: 120, align: "center" },
+      // { name: "start_date", label: "Start date", width: 120, align: "center" },
       { name: "end_date", label: "Due date", width: 120, align: "center" },
-      { label: "Predecessors", width: 100 },
+      {
+        name: "predecessors",
+        label: "Predecessors",
+        width: 100,
+        align: "left",
+        editor: predecessors,
+        resize: true,
+        template: function (task) {
+          var links = task.$target;
+
+          var labels = [];
+          for (var i = 0; i < links.length; i++) {
+            var link = gantt.getLink(links[i]);
+            var source_task = gantt.getTask(link.source);
+
+            labels.push(source_task.text);
+          }
+          return labels.join(", ");
+        },
+      },
+      // {  label: "Predecessors", width: 100 },
       { name: "add", label: "", width: 44 },
     ];
+    // for task vertically move from timeline
 
     //enable colum reordring
     gantt.config.reorder_grid_columns = true;
@@ -435,20 +445,42 @@ export default class Gantt extends Component {
       this.dataProcessor = null;
     }
   }
+  add_column = (data) => {
+    let column = { label: data.label, width: data.columnWidth };
+    gantt.config.columns.push(column);
+    gantt.render();
+  };
+
+  add_gridHideAndShow_button = () => {
+    setTimeout(() => {
+      let invis = document.getElementsByClassName(
+        "gantt_layout_cell  timeline_cell gantt_layout_outer_scroll gantt_layout_outer_scroll_vertical gantt_layout_outer_scroll gantt_layout_outer_scroll_horizontal"
+      );
+      var tag = document.createElement("span");
+      invis[0].appendChild(tag);
+      tag.addEventListener("click", function () {
+        gantt.config.show_grid = !gantt.config.show_grid;
+        gantt.render();
+      });
+    }, 200);
+  };
 
   render() {
     const { zoom, gridFlag } = this.props;
 
     this.setZoom(zoom);
-    this.showHideGrid(gridFlag);
+    this.add_gridHideAndShow_button();
 
     return (
-      <div
-        ref={(input) => {
-          this.ganttContainer = input;
-        }}
-        style={{ width: "100%", height: "100%", position: "absolute" }}
-      ></div>
+      <>
+        <AddColumnBox onColumnAdd={this.add_column} />
+        <div
+          ref={(input) => {
+            this.ganttContainer = input;
+          }}
+          style={{ width: "100%", height: "100%", position: "absolute" }}
+        ></div>
+      </>
     );
   }
 }

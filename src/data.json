@@ -322,6 +322,114 @@
       "parent": 30,
       "progress": 0.2,
       "duration": 168
+    },
+    {
+      "id": 36,
+      "text": "Product Design",
+      "start_date": "2021-07-20",
+      "type": "project",
+      "order": 40,
+      "open": true,
+      "duration": 168
+    },
+    {
+      "id": 37,
+      "text": "UI/UX",
+      "start_date": "2021-07-20",
+      "order": 40,
+      "parent": 36,
+      "progress": 0.2,
+      "duration": 168
+    },
+    {
+      "id": 38,
+      "text": "Front-end Discusion",
+      "start_date": "2021-07-22",
+      "order": 40,
+      "parent": 36,
+      "progress": 0.2,
+      "duration": 168
+    },
+    {
+      "id": 39,
+      "text": "Front-end Design",
+      "start_date": "2021-07-24",
+      "order": 40,
+      "parent": 36,
+      "progress": 0.2,
+      "duration": 168
+    },
+    {
+      "id": 40,
+      "text": "Work Start",
+      "start_date": "2021-07-28",
+      "order": 40,
+      "parent": 36,
+      "progress": 0.2,
+      "duration": 168
+    },
+    {
+      "id": 41,
+      "text": "Development",
+      "start_date": "2021-08-01",
+      "order": 40,
+      "parent": 36,
+      "progress": 0.2,
+      "duration": 168
+    },
+    {
+      "id": 42,
+      "text": "Development",
+      "start_date": "2021-08-03",
+      "type": "project",
+      "order": 50,
+      "open": true,
+      "duration": 168
+    },
+    {
+      "id": 43,
+      "text": "UI/UX",
+      "start_date": "2021-08-03",
+      "order": 50,
+      "parent": 42,
+      "progress": 0.2,
+      "duration": 168
+    },
+    {
+      "id": 44,
+      "text": "Front-end Discusion",
+      "start_date": "2021-08-05",
+      "order": 50,
+      "parent": 42,
+      "progress": 0.2,
+      "duration": 168
+    },
+    {
+      "id": 45,
+      "text": "Front-end Design",
+      "start_date": "2021-08-07",
+      "order": 50,
+      "parent": 42,
+      "progress": 0.2,
+      "duration": 168
+    },
+    {
+      "id": 46,
+      "text": "Work Start",
+      "start_date": "2021-08-10",
+      "order": 50,
+      "parent": 42,
+      "progress": 0.2,
+      "duration": 168
+    },
+    {
+      "id": 47,
+      "text": "Development",
+      "start_date": "2021-08-12",
+      "order": 50,
+      "parent": 42,
+      "progress": 0.2,
+      "duration": 168
     }
   ],
   "links": [

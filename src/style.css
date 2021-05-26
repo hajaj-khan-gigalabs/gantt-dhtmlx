@@ -1,3 +1,7 @@
+body{
+  padding: 0;
+  margin: 0;
+}
 .gantt_cal_light {
   height: 80% !important;
 }
@@ -72,6 +76,94 @@
   display: none;
 }
 
-/* .gantt_tree_content div:hower {
-  background-color: black;
-} */
+/* The Modal (background) */
+.modal {
+  display: block; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 99; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  width: 50%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+/* The Close Button */
+.close {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-header {
+  padding: 2px 16px;
+  background-color: #2898b0;
+  color: white;
+}
+
+.modal-body {
+  padding: 2px 16px;
+}
+
+/* Model Design End */
+
+.gantt_layout_cell.timeline_cell.gantt_layout_outer_scroll.gantt_layout_outer_scroll_vertical.gantt_layout_outer_scroll.gantt_layout_outer_scroll_horizontal {
+  position: relative;
+}
+.gantt_layout_cell.timeline_cell.gantt_layout_outer_scroll.gantt_layout_outer_scroll_vertical.gantt_layout_outer_scroll.gantt_layout_outer_scroll_horizontal
+  span {
+  position: absolute;
+  height: 100%;
+  width: 3px;
+  background-color: transparent;
+  content: "";
+  top: 0;
+  left: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: 0.3s;
+}
+.gantt_layout_cell.timeline_cell.gantt_layout_outer_scroll.gantt_layout_outer_scroll_vertical.gantt_layout_outer_scroll.gantt_layout_outer_scroll_horizontal
+  span:hover {
+    background-color: #48f;    
+  /* background-color: #2898b0; */
+}
+.gantt_layout_cell.timeline_cell.gantt_layout_outer_scroll.gantt_layout_outer_scroll_vertical.gantt_layout_outer_scroll.gantt_layout_outer_scroll_horizontal span:after{
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  content: "\f053";
+  width: 20px;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  background-color: #48f;
+  height: 30px;
+  color: #fff;
+  display: none;
+}
+.gantt_layout_cell.timeline_cell.gantt_layout_outer_scroll.gantt_layout_outer_scroll_vertical.gantt_layout_outer_scroll.gantt_layout_outer_scroll_horizontal span:hover:after{
+display: block;
+}
