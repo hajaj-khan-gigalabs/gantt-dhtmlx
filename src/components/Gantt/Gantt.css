@@ -1,9 +1,7 @@
 .gantt-container {
   height: calc(100vh - 50px - 200px);
 }
-.invisible_task {
-  z-index: 22;
-}
+
 
 .gantt_task_line,
 .gantt_line_wrapper {

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { gantt } from "dhtmlx-gantt";
 import "dhtmlx-gantt/codebase/dhtmlxgantt.css";
 import "./Gantt.css";
-import AddColumnBox from "./../modelboxes/add_column_box";
+import AddColumnBox from "../modalboxes/add_column_box";
 //  import "./material_skin.css";
 
 export default class Gantt extends Component {
@@ -149,6 +149,7 @@ export default class Gantt extends Component {
           for (var i = 0; i < links.length; i++) {
             var link = gantt.getLink(links[i]);
             var source_task = gantt.getTask(link.source);
+            // var source_task = gantt.getTask(link.source);
 
             labels.push(source_task.text);
           }
@@ -158,7 +159,29 @@ export default class Gantt extends Component {
       // {  label: "Predecessors", width: 100 },
       { name: "add", label: "", width: 44 },
     ];
-    // for task vertically move from timeline
+    gantt.attachEvent("onLinkCreated", function (link) {
+      // your code here
+      var source_task = gantt.getTask(link.source);
+      var target_task = gantt.getTask(link.target);
+      switch (link.type) {
+        case "0":
+          target_task.start_date = source_task.end_date;
+          break;
+        case "1":
+          target_task.start_date = source_task.start_date;
+          break;
+        case "2":
+          target_task.end_date = source_task.end_date;
+          break;
+        case "3":
+          target_task.end_date = source_task.start_date;
+          break;
+        default:
+          break;
+      }
+      // gantt.render();
+      return true;
+    });
 
     //enable colum reordring
     gantt.config.reorder_grid_columns = true;
@@ -457,8 +480,21 @@ export default class Gantt extends Component {
         "gantt_layout_cell  timeline_cell gantt_layout_outer_scroll gantt_layout_outer_scroll_vertical gantt_layout_outer_scroll gantt_layout_outer_scroll_horizontal"
       );
       var tag = document.createElement("span");
+      tag.setAttribute("id", "span_id");
       invis[0].appendChild(tag);
+      let innerdiv = document.getElementById("span_id");
+
+      var div = document.createElement("div");
+      div.setAttribute("class", "inner_div");
+      div.innerHTML = "<i class='fa fa-chevron-left'></i>";
+      innerdiv.appendChild(div);
       tag.addEventListener("click", function () {
+        let icon = document.getElementsByClassName("inner_div");
+        if (gantt.config.show_grid) {
+          icon[0].innerHTML = "<i class='fa fa-chevron-right'></i>";
+        } else {
+          icon[0].innerHTML = "<i class='fa fa-chevron-left'></i>";
+        }
         gantt.config.show_grid = !gantt.config.show_grid;
         gantt.render();
       });
@@ -466,7 +502,7 @@ export default class Gantt extends Component {
   };
 
   render() {
-    const { zoom, gridFlag } = this.props;
+    const { zoom } = this.props;
 
     this.setZoom(zoom);
     this.add_gridHideAndShow_button();

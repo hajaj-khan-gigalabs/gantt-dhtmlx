@@ -30,15 +30,15 @@ export default class Toolbar extends Component {
   render() {
     return (
       <div className="tool-bar">
-        <select value={this.state.zoom} onChange={this.handleChange}>
+        <select className="dropDown"  value={this.state.zoom} onChange={this.handleChange}>
           <option value="year">Years</option>
           <option value="quarter">Quarters</option>
           <option value="month">Months</option>
           <option value="week">Weeks</option>
           <option value="day">Days</option>
         </select>
-        <button onClick={this.zoomIn}>+</button>
-        <button onClick={this.zoomOut}>-</button>
+        <button className="minusIcon" onClick={this.zoomOut}>-</button>
+        <button className="plusIcon" onClick={this.zoomIn}>+</button>
       </div>
     );
   }

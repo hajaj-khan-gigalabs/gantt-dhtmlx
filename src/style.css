@@ -1,7 +1,50 @@
-body{
+body {
   padding: 0;
   margin: 0;
 }
+
+.dropDown {
+  min-height: 24px;
+  padding: 0 7px;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 20px;
+  border-radius: 2px;
+  background-color: #fff;
+}
+.plusIcon {
+  min-width: 5px;
+  min-height: 24px;
+  margin-left: 4px;
+  border-radius: 2px;
+  background-color: #fff;
+  font-weight: 900;
+  font-size: 12px;
+  border: 1px solid;
+  line-height: 20px;
+}
+.minusIcon {
+  min-width: 5px;
+  min-height: 24px;
+  margin-left: 4px;
+  border-radius: 2px;
+  border: 1px solid;
+  background-color: #fff;
+  font-weight: 900;
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.gantt_grid_data .gantt_row.odd:hover,
+.gantt_grid_data .gantt_row:hover {
+  background-color: #dde7f1;
+}
+.gantt_grid_data .gantt_row.gantt_selected,
+.gantt_grid_data .gantt_row.odd.gantt_selected,
+.gantt_task_row.gantt_selected {
+  background-color: #dde7f1;
+}
+
 .gantt_cal_light {
   height: 80% !important;
 }
@@ -17,16 +60,33 @@ body{
   border-right: 1px solid #cecece;
 }
 .weekend {
-  background: orange !important;
+  background: #07dcf891 !important;
 }
 .marker-test {
   background: none !important;
   border-left: 2px dotted black;
 }
 .task_class {
-  border-radius: 5px;
-  height: 17px !important;
+  height: 17px;
 }
+
+.gantt_task_line.gantt_project {
+  background-color: #92969a;
+  border: 1px solid #92969a;
+}
+.gantt_task_line.gantt_project .gantt_task_progress {
+  border: 1px solid #767a77;
+  background-color: #767a77;
+}
+.gantt_task_line {
+  background-color: #00bbd4;
+  border: 1px solid #00bbd4;
+}
+.gantt_task_line .gantt_task_progress {
+  border: 1px solid #01adc3;
+  background-color: #01adc3;
+}
+
 /* .gantt_task_line {
   background-color: #969996 !important;
 } */
@@ -76,59 +136,6 @@ body{
   display: none;
 }
 
-/* The Modal (background) */
-.modal {
-  display: block; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 99; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0, 0, 0); /* Fallback color */
-  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
-}
-
-/* Modal Content */
-.modal-content {
-  position: relative;
-  background-color: #fefefe;
-  margin: auto;
-  padding: 0;
-  border: 1px solid #888;
-  width: 50%;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-/* The Close Button */
-.close {
-  color: white;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.modal-header {
-  padding: 2px 16px;
-  background-color: #2898b0;
-  color: white;
-}
-
-.modal-body {
-  padding: 2px 16px;
-}
-
-/* Model Design End */
-
 .gantt_layout_cell.timeline_cell.gantt_layout_outer_scroll.gantt_layout_outer_scroll_vertical.gantt_layout_outer_scroll.gantt_layout_outer_scroll_horizontal {
   position: relative;
 }
@@ -148,22 +155,33 @@ body{
 }
 .gantt_layout_cell.timeline_cell.gantt_layout_outer_scroll.gantt_layout_outer_scroll_vertical.gantt_layout_outer_scroll.gantt_layout_outer_scroll_horizontal
   span:hover {
-    background-color: #48f;    
+  background-color: #48f;
   /* background-color: #2898b0; */
 }
-.gantt_layout_cell.timeline_cell.gantt_layout_outer_scroll.gantt_layout_outer_scroll_vertical.gantt_layout_outer_scroll.gantt_layout_outer_scroll_horizontal span:after{
-  position: absolute;
-  align-items: center;
-  justify-content: center;
-  content: "\f053";
-  width: 20px;
-  font-family: "Font Awesome 5 Free";
-  font-weight: 900;
-  background-color: #48f;
-  height: 30px;
-  color: #fff;
-  display: none;
+.gantt_layout_cell.timeline_cell.gantt_layout_outer_scroll.gantt_layout_outer_scroll_vertical.gantt_layout_outer_scroll.gantt_layout_outer_scroll_horizontal
+  span .inner_div{
+    position: absolute;
+    width: 20px;
+    font-family: "Font Awesome 5 Free";
+    /* font-weight: 900; */
+    background-color: #48f;
+    height: 30px;
+    color: #fff;
+    display: none;
+    font-weight: 900;
+    font-size: 12px;
+    
+
 }
-.gantt_layout_cell.timeline_cell.gantt_layout_outer_scroll.gantt_layout_outer_scroll_vertical.gantt_layout_outer_scroll.gantt_layout_outer_scroll_horizontal span:hover:after{
-display: block;
+.gantt_layout_cell.timeline_cell.gantt_layout_outer_scroll.gantt_layout_outer_scroll_vertical.gantt_layout_outer_scroll.gantt_layout_outer_scroll_horizontal
+  span .inner_div i {
+  position: absolute;
+  color: #fff;
+  font-size: 12px;
+  top: 8px;
+  left: 6px;
+}
+.gantt_layout_cell.timeline_cell.gantt_layout_outer_scroll.gantt_layout_outer_scroll_vertical.gantt_layout_outer_scroll.gantt_layout_outer_scroll_horizontal
+  span:hover .inner_div {
+  display: block;
 }

@@ -1,4 +1,5 @@
 import React from "react";
+import "./modal.css";
 
 class AddColumnBox extends React.Component {
   constructor(props) {
@@ -25,6 +26,7 @@ class AddColumnBox extends React.Component {
             <div id="myModal" className="modal">
               <div className="modal-content">
                 <div className="modal-header">
+                  <h2>Add Column</h2>
                   <span
                     className="close"
                     onClick={() =>
@@ -33,10 +35,11 @@ class AddColumnBox extends React.Component {
                   >
                     &times;
                   </span>
-                  <h2>Add Column</h2>
                 </div>
                 <div className="modal-body">
                   <form>
+                    <div className="fields">
+                    <div>
                     <label>Add label of column:</label>
                     <br />
                     <input
@@ -46,7 +49,8 @@ class AddColumnBox extends React.Component {
                       value={this.state.label}
                       onChange={(e) => this.setState({ label: e.target.value })}
                     />
-                    <br />
+                    </div>
+                    <div>
                     <label>Column Width:</label>
                     <br />
                     <input
@@ -56,13 +60,15 @@ class AddColumnBox extends React.Component {
                       value={this.state.columnWidth}
                       onChange={(e) => this.setState({ columnWidth: e.target.value })}
                     />
-                    <br />
-                    <br />
+                    </div>
+                    </div>
+                    <div className="submit">
                     <input
                       type="submit"
                       value="Submit"
                       onClick={() => this.onSubmit()}
                     />
+                    </div>
                   </form>
                 </div>
               </div>
