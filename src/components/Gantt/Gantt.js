@@ -274,6 +274,7 @@ export default class Gantt extends Component {
 
     //drag project with all its tasks
     gantt.config.drag_project = true;
+    gantt.config.fit_tasks = true;
 
     //Task 2
     function change_highlight(id, type) {
@@ -316,29 +317,29 @@ export default class Gantt extends Component {
     gantt.plugins({
       marker: true,
     });
-    var marker;
-    gantt.attachEvent("onBeforeTaskDrag", function (id, mode, e) {
-      var task = gantt.getTask(id);
-      var dateToStr = task.end_date;
-      marker = gantt.addMarker({
-        start_date: dateToStr,
-        css: "marker-test",
-        text: "Now",
-        title: "Marker",
-      });
-      return true;
-    });
+    // var marker;
+    // gantt.attachEvent("onBeforeTaskDrag", function (id, mode, e) {
+    //   var task = gantt.getTask(id);
+    //   var dateToStr = task.end_date;
+    //   marker = gantt.addMarker({
+    //     start_date: dateToStr,
+    //     css: "marker-test",
+    //     text: "Now",
+    //     title: "Marker",
+    //   });
+    //   return true;
+    // });
 
-    gantt.attachEvent("onTaskDrag", function (id, mode, task, original) {
-      gantt.getMarker(marker).start_date = task.end_date;
-      gantt.updateMarker(marker);
-      gantt.renderMarkers();
-    });
+    // gantt.attachEvent("onTaskDrag", function (id, mode, task, original) {
+    //   gantt.getMarker(marker).start_date = task.end_date;
+    //   gantt.updateMarker(marker);
+    //   gantt.renderMarkers();
+    // });
 
-    gantt.attachEvent("onAfterTaskDrag", function (id, mode, e) {
-      gantt.deleteMarker(marker);
-      gantt.renderMarkers();
-    });
+    // gantt.attachEvent("onAfterTaskDrag", function (id, mode, e) {
+    //   gantt.deleteMarker(marker);
+    //   gantt.renderMarkers();
+    // });
 
     //today Marker
     var dateToStr = gantt.date.date_to_str(gantt.config.task_date);
@@ -355,7 +356,9 @@ export default class Gantt extends Component {
     gantt.attachEvent("onTaskDrag", function (id, mode, task, original) {
       left_date = task.start_date;
       right_date = task.end_date;
-      gantt.render();
+      // if(task.type !== "project"){
+      // gantt.render();
+      // }
     });
 
     gantt.attachEvent("onAfterTaskDrag", function (id, mode, e) {
@@ -456,6 +459,19 @@ export default class Gantt extends Component {
         return "gantt_cell_right";
       }
     };
+
+    // performance Work
+    gantt.config.show_task_cells = false;
+    // gantt.config.static_background = true;
+    gantt.config.static_background_cells = false;
+
+    gantt.config.start_date = "2021-05-14";
+    gantt.config.end_date = "2021-09-14";
+
+    gantt.config.show_progress = false;
+    gantt.config.smart_scales = true;
+
+    // gantt.config.autosize = "xy";
 
     gantt.init(this.ganttContainer);
     this.initGanttDataProcessor();
