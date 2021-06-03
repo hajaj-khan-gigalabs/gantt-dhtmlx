@@ -1,0 +1,33 @@
+.gantt-container {
+    height: calc(100vh - 50px - 200px);
+  }
+  
+  
+  .gantt_task_line,
+  .gantt_line_wrapper {
+    z-index: 3;
+  }
+  
+  .invisible_task {
+    background-image: radial-gradient(plum, orange, cyan);
+    opacity: 0.01;
+    width: 100%;
+    height: 34px;
+    left: 0;
+    background-repeat: repeat-x;
+    /* position: fixed; */
+    margin-top: -2px;
+    overflow: hidden;
+  }
+  
+  .invisible_task1 {
+    background-image: radial-gradient(plum, orange, cyan);
+    opacity: 0.01;
+    width: 100%;
+    height: 34px;
+    left: 0;
+    background-repeat: repeat-x;
+    position: fixed;
+    margin-top: -2px;
+    overflow: hidden;
+  }
