@@ -57,6 +57,7 @@ class App extends Component {
   render() {
     const { currentZoom, messages, currentZoom_27, currentZoom_20, gridFlag } =
       this.state;
+      
     return (
       <Router>
         <div>
