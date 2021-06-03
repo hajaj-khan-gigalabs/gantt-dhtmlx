@@ -164,13 +164,13 @@ export default class Gantt extends Component {
       var source_task = gantt.getTask(link.source);
       var target_task = gantt.getTask(link.target);
       let duration = target_task.duration;
-      console.log(duration)
+      console.log(duration);
       switch (link.type) {
         case "0":
           target_task.start_date = source_task.end_date;
           target_task.duration = duration;
-          console.log('target_task.duration: ',target_task.duration)
-          
+          console.log("target_task.duration: ", target_task.duration);
+
           break;
         case "1":
           target_task.start_date = source_task.start_date;
@@ -473,8 +473,8 @@ export default class Gantt extends Component {
     // gantt.config.static_background = true;
     gantt.config.static_background_cells = false;
 
-    gantt.config.start_date = "2021-05-14";
-    gantt.config.end_date = "2021-09-14";
+    // gantt.config.start_date = "2021-05-14";
+    // gantt.config.end_date = "2021-09-14";
 
     gantt.config.show_progress = false;
     gantt.config.smart_scales = true;
@@ -522,7 +522,7 @@ export default class Gantt extends Component {
         gantt.config.show_grid = !gantt.config.show_grid;
         gantt.render();
       });
-    }, 200);
+    }, 5000);
   };
 
   render() {
