@@ -15,22 +15,209 @@ export default class Gantt extends Component {
   dataProcessor = null;
 
   initZoom() {
+    // var hourToStr = gantt.date.date_to_str("%H:%i");
+    // var hourRangeFormat = function (step) {
+    //   return function (date) {
+    //     var intervalEnd = new Date(gantt.date.add(date, step, "hour") - 1);
+    //     return hourToStr(date) + " - " + hourToStr(intervalEnd);
+    //   };
+    // };
+    // var zoomConfig = {
+    //   levels: [
+    //     {
+    //       name: "year",
+    //       scale_height: 50,
+    //       min_column_width: 30,
+    //       scales: [{ unit: "year", step: 1, format: "%Y" }],
+    //     },
+    //     {
+    //       name: "quarter",
+    //       height: 50,
+    //       min_column_width: 90,
+    //       scales: [
+    //         { unit: "month", step: 1, format: "%M" },
+    //         {
+    //           unit: "quarter",
+    //           step: 1,
+    //           format: function (date) {
+    //             var dateToStr = gantt.date.date_to_str("%M");
+    //             var endDate = gantt.date.add(
+    //               gantt.date.add(date, 3, "month"),
+    //               -1,
+    //               "day"
+    //             );
+    //             return dateToStr(date) + " - " + dateToStr(endDate);
+    //           },
+    //         },
+    //       ],
+    //     },
+    //     {
+    //       name: "month",
+    //       scale_height: 50,
+    //       min_column_width: 120,
+    //       scales: [
+    //         { unit: "month", format: "%F, %Y" },
+    //         { unit: "week", format: "Week #%W" },
+    //       ],
+    //     },
+    //     {
+    //       name: "week",
+    //       scale_height: 50,
+    //       min_column_width: 50,
+    //       scales: [
+    //         {
+    //           unit: "week",
+    //           step: 1,
+    //           format: function (date) {
+    //             var dateToStr = gantt.date.date_to_str("%M %d");
+    //             var endDate = gantt.date.add(date, -6, "day");
+    //             var weekNum = gantt.date.date_to_str("%W")(date);
+    //             return (
+    //               dateToStr(date) +
+    //               " _ " +
+    //               dateToStr(endDate) +
+    //               "   W" +
+    //               weekNum
+    //             );
+    //           },
+    //         },
+    //         { unit: "day", step: 1, format: "%D" },
+    //       ],
+    //     },
+    //     {
+    //       name: "day",
+    //       scale_height: 27,
+    //       min_column_width: 80,
+    //       scales: [
+    //         { unit: "day", step: 1, format: "%d %M" },
+    //         {
+    //           unit: "day",
+    //           step: 1,
+    //           format: function (date) {
+    //             return "1|2|3|4|5|6|7|8";
+    //           },
+    //         },
+    //       ],
+    //     },
+    //     {
+    //       name: "12hours",
+    //       scale_height: 50,
+    //       min_column_width: 120,
+    //       scales: [
+    //         { unit: "day", format: "%d %M", step: 1 },
+    //         { unit: "hour", format: hourRangeFormat(12), step: 12 },
+    //       ],
+    //     },
+    //     // {
+    //     //   name: "6hours",
+    //     //   scale_height: 50,
+    //     //   min_column_width: 120,
+    //     //   scales: [
+    //     //     { unit: "day", format: "%d %M", step: 1 },
+    //     //     { unit: "hour", format: hourRangeFormat(6), step: 6 },
+    //     //   ],
+    //     // },
+    //     {
+    //       name: "day",
+    //       scale_height: 50,
+    //       min_column_width: 120,
+    //       scales: [
+    //         { unit: "day", format: "%d %M", step: 1 },
+    //         { unit: "hour", format: "%H", step: 1 },
+    //       ],
+    //     },
+    //   ],
+    //   // startDate: "2021-05-12",
+    //   // endDate: "2048-9-25",
+    //   useKey: "ctrlKey",
+    //   // trigger: "wheel",
+    //   element: function () {
+    //     return gantt.$root.querySelector(".gantt_task");
+    //   },
+    // };
+    // gantt.ext.zoom.init(zoomConfig);
+    function onMouseWheel(e) {
+      var wy = gantt.env.isFF ? e.deltaY * -40 : e.wheelDelta;
+      var diff = wy < 0 ? -1 : 1;
+      var currentLevel = gantt.config.min_column_width;
+      var level = currentLevel + diff * 10;
+      if (level != currentLevel) {
+        currentLevel = level;
+
+        gantt.config.min_column_width = currentLevel;
+        // gantt.render();
+      }
+
+      var zoom_level = gantt.ext.zoom.getCurrentLevel();
+
+      if (zoom_level == 0) {
+        if (gantt.config.min_column_width < 50) {
+          gantt.ext.zoom.zoomOut();
+          // gantt.render();
+        }
+      }
+
+      if (zoom_level == 1) {
+        if (gantt.config.min_column_width > 60) {
+          gantt.ext.zoom.zoomIn();
+          // gantt.render();
+        }
+        if (gantt.config.min_column_width < 20) {
+          gantt.ext.zoom.zoomOut();
+          gantt.config.min_column_width = 130;
+          // gantt.render();
+        }
+      }
+
+      if (zoom_level == 2) {
+        if (gantt.config.min_column_width > 130) {
+          gantt.ext.zoom.zoomIn();
+          gantt.config.min_column_width = 30;
+          // gantt.render();
+        }
+        if (gantt.config.min_column_width < 30) {
+          gantt.ext.zoom.zoomOut();
+          // gantt.render();
+        }
+      }
+
+      if (zoom_level == 3) {
+        if (gantt.config.min_column_width > 120) {
+          gantt.ext.zoom.zoomIn();
+          gantt.config.min_column_width = 30;
+          // gantt.render();
+        }
+        if (gantt.config.min_column_width < 30) {
+          gantt.ext.zoom.zoomOut();
+          // gantt.render();
+        }
+      }
+
+      if (zoom_level == 4) {
+        if (gantt.config.min_column_width > 60) {
+          gantt.ext.zoom.zoomIn();
+          gantt.config.min_column_width = 90;
+          // gantt.render();
+        }
+        if (gantt.config.min_column_width < 20) {
+          gantt.config.min_column_width = 20;
+          // gantt.render();
+        }
+      }
+      var selected_task = gantt.getSelectedId();
+      if (selected_task) gantt.showTask(selected_task);
+      gantt.render();
+      if (e.preventDefault) e.preventDefault();
+      e.cancelBubble = true;
+      return false;
+    }
     var zoomConfig = {
       levels: [
         {
           name: "day",
           scale_height: 27,
           min_column_width: 80,
-          scales: [
-            { unit: "day", step: 1, format: "%d %M" },
-            {
-              unit: "day",
-              step: 1,
-              format: function (date) {
-                return "1|2|3|4|5|6|7|8";
-              },
-            },
-          ],
+          scales: [{ unit: "day", step: 1, format: "%d %M" }],
         },
         {
           name: "week",
@@ -41,19 +228,20 @@ export default class Gantt extends Component {
               unit: "week",
               step: 1,
               format: function (date) {
-                var dateToStr = gantt.date.date_to_str("%M %d");
+                var dateToStr = gantt.date.date_to_str("%d %M");
                 var endDate = gantt.date.add(date, -6, "day");
                 var weekNum = gantt.date.date_to_str("%W")(date);
                 return (
+                  "#" +
+                  weekNum +
+                  ", " +
                   dateToStr(date) +
-                  " _ " +
-                  dateToStr(endDate) +
-                  "   W" +
-                  weekNum
+                  " - " +
+                  dateToStr(endDate)
                 );
               },
             },
-            { unit: "day", step: 1, format: "%D" },
+            { unit: "day", step: 1, format: "%j %D" },
           ],
         },
         {
@@ -93,7 +281,14 @@ export default class Gantt extends Component {
           scales: [{ unit: "year", step: 1, format: "%Y" }],
         },
       ],
+      useKey: "ctrlKey",
+      trigger: "wheel",
+      handler: onMouseWheel,
+      element: function () {
+        return gantt.$root.querySelector(".gantt_task");
+      },
     };
+
     gantt.ext.zoom.init(zoomConfig);
   }
 
@@ -126,6 +321,17 @@ export default class Gantt extends Component {
   }
 
   componentDidMount() {
+    // if (gantt.env.isFF) {
+    //   console.log("if");
+    //   gantt.event(this.ganttContainer, "wheel", onMouseWheel);
+    // } else {
+    //   console.log("else");
+    //   gantt.event(this.ganttContainer, "wheel", onMouseWheel);
+    // }
+    // gantt.ext.zoom.attachEvent("onAfterZoom", function (level, config) {
+    //  console.log('Zoom chnage')
+    // });
+
     gantt.config.xml_date = "%Y-%m-%d %H:%i";
     const { tasks } = this.props;
     var predecessors = { type: "predecessor", map_to: "auto" };
@@ -476,8 +682,48 @@ export default class Gantt extends Component {
     // gantt.config.start_date = "2021-05-14";
     // gantt.config.end_date = "2021-09-14";
 
-    gantt.config.show_progress = false;
+    // gantt.config.show_progress = false;
     gantt.config.smart_scales = true;
+
+    gantt.templates.progress_text = function (start, end, task) {
+      return '<svg height="20" width="20"><circle cx="5" cy="5" r="4" stroke="black" stroke-width="1" fill="red" />Sorry, your browser does not support inline SVG.</svg> ';
+    };
+    function task_operations(task_id, action) {
+      var task = gantt.getTask(task_id);
+
+      if (action == "left_decrease") {
+        task.start_date = gantt.date.add(task.start_date, -1, "day");
+      }
+      if (action == "left_increase") {
+        task.start_date = gantt.date.add(task.start_date, 1, "day");
+      }
+      if (action == "right_decrease") {
+        task.end_date = gantt.date.add(task.end_date, -1, "day");
+      }
+      if (action == "right_increase") {
+        task.end_date = gantt.date.add(task.end_date, 1, "day");
+      }
+
+      gantt.render();
+    }
+
+    gantt.templates.leftside_text = function (start, end, task) {
+      var buttons = `<div onClick=task_operations("${task.id}","right_decrease")><svg height="20" width="20" ><circle cx="5" cy="5" r="4" stroke="black" stroke-width="1" fill="red" />Sorry, your browser does not support inline SVG.</svg> </div>`;
+      if (task.type != "project") return buttons;
+    };
+
+    // gantt.templates.rightside_text = function (start, end, task) {
+    //   var buttons =
+    //     '<input type=button value="-" onclick=task_operations(' +
+    //     task.id +
+    //     ',"right_decrease")>' +
+    //     '<input type=button value="+" onclick=task_operations(' +
+    //     task.id +
+    //     ',"right_increase")>';
+    //   if (task.type != "project") return buttons;
+    // };\
+
+   
 
     // gantt.config.autosize = "xy";
 

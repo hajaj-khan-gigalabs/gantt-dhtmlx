@@ -165,8 +165,8 @@ export default class Gantt_27 extends Component {
     gantt.templates.grid_row_class = function (start, end, task) {
       if (
         drag_id &&
-        task.id == drag_id &&
-        task.$level == gantt.getTask(drag_id).$level
+        task.id === drag_id &&
+        task.$level === gantt.getTask(drag_id).$level
       ) {
         return "drag_highlight";
       }
@@ -175,8 +175,8 @@ export default class Gantt_27 extends Component {
     gantt.templates.task_row_class = function (start, end, task) {
       if (
         drag_id &&
-        task.id == drag_id &&
-        task.$level == gantt.getTask(drag_id).$level
+        task.id === drag_id &&
+        task.$level === gantt.getTask(drag_id).$level
       ) {
         return "drag_highlight";
       }
@@ -370,7 +370,7 @@ export default class Gantt_27 extends Component {
     };
 
     gantt.templates.timeline_cell_class = function (task, date) {
-      if (date.getDay() == 0 ) {
+      if (date.getDay() === 0 ) {
         return "gantt_cell_left";
       }
       if (date.getDay() === 7) {

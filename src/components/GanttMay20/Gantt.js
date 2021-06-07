@@ -309,7 +309,7 @@ export default class Gantt_20 extends Component {
       // if (date.getDay() == 0 ) {
       //   return "gantt_cell_left";
       // }
-      if(date.getDay() == 6){
+      if(date.getDay() === 6){
         return "gantt_cell_right"
       }
     };

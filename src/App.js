@@ -5,31 +5,31 @@ import GanttMay27 from "./components/GanttMay27";
 import GanttMay20 from "./components/GanttMay20";
 import Toolbar from "./components/Toolbar";
 import ToolbarMay27 from "./components/ToolbarMay27";
-import MessageArea from "./components/MessageArea";
+// import MessageArea from "./components/MessageArea";
 import taskData from "./data.json";
 import "./style.css";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 const data = taskData;
 class App extends Component {
   state = {
     currentZoom: "week",
     currentZoom_27: "Days",
-    currentZoom_20: "Days",
-    messages: [],
+    // currentZoom_20: "Days",
+    // messages: [],
     gridFlag: true,
   };
 
-  addMessage(message) {
-    const maxLogLength = 5;
-    const newMessate = { message };
-    const messages = [newMessate, ...this.state.messages];
+  // addMessage(message) {
+  //   const maxLogLength = 5;
+  //   const newMessate = { message };
+  //   const messages = [newMessate, ...this.state.messages];
 
-    if (messages.length > maxLogLength) {
-      messages.length = maxLogLength;
-    }
-    this.setState({ messages });
-  }
+  //   if (messages.length > maxLogLength) {
+  //     messages.length = maxLogLength;
+  //   }
+  //   this.setState({ messages });
+  // }
 
   logDataUpdate = (type, action, item, id) => {
     let text = item && item.text ? ` (${item.text})` : "";
@@ -55,9 +55,8 @@ class App extends Component {
   };
 
   render() {
-    const { currentZoom, messages, currentZoom_27, currentZoom_20, gridFlag } =
-      this.state;
-      
+    const { currentZoom, currentZoom_27, gridFlag } = this.state;
+
     return (
       <Router>
         <div>

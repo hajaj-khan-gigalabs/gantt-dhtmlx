@@ -166,22 +166,23 @@ body {
   /* background-color: #2898b0; */
 }
 .gantt_layout_cell.timeline_cell.gantt_layout_outer_scroll.gantt_layout_outer_scroll_vertical.gantt_layout_outer_scroll.gantt_layout_outer_scroll_horizontal
-  span .inner_div{
-    position: absolute;
-    width: 20px;
-    font-family: "Font Awesome 5 Free";
-    /* font-weight: 900; */
-    background-color: #48f;
-    height: 30px;
-    color: #fff;
-    display: none;
-    font-weight: 900;
-    font-size: 12px;
-    
-
+  span
+  .inner_div {
+  position: absolute;
+  width: 20px;
+  font-family: "Font Awesome 5 Free";
+  /* font-weight: 900; */
+  background-color: #48f;
+  height: 30px;
+  color: #fff;
+  display: none;
+  font-weight: 900;
+  font-size: 12px;
 }
 .gantt_layout_cell.timeline_cell.gantt_layout_outer_scroll.gantt_layout_outer_scroll_vertical.gantt_layout_outer_scroll.gantt_layout_outer_scroll_horizontal
-  span .inner_div i {
+  span
+  .inner_div
+  i {
   position: absolute;
   color: #fff;
   font-size: 12px;
@@ -189,6 +190,14 @@ body {
   left: 6px;
 }
 .gantt_layout_cell.timeline_cell.gantt_layout_outer_scroll.gantt_layout_outer_scroll_vertical.gantt_layout_outer_scroll.gantt_layout_outer_scroll_horizontal
-  span:hover .inner_div {
+  span:hover
+  .inner_div {
   display: block;
+}
+
+.gantt_task_progress {
+  text-align: left;
+  padding-left: 10px;
+  box-sizing: border-box;
+  padding-top: 3px;
 }
