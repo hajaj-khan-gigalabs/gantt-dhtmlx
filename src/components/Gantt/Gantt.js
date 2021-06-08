@@ -141,7 +141,7 @@ export default class Gantt extends Component {
       var diff = wy < 0 ? -1 : 1;
       var currentLevel = gantt.config.min_column_width;
       var level = currentLevel + diff * 10;
-      if (level != currentLevel) {
+      if (level !== currentLevel) {
         currentLevel = level;
 
         gantt.config.min_column_width = currentLevel;
@@ -150,14 +150,14 @@ export default class Gantt extends Component {
 
       var zoom_level = gantt.ext.zoom.getCurrentLevel();
 
-      if (zoom_level == 0) {
+      if (zoom_level === 0) {
         if (gantt.config.min_column_width < 50) {
           gantt.ext.zoom.zoomOut();
           // gantt.render();
         }
       }
 
-      if (zoom_level == 1) {
+      if (zoom_level === 1) {
         if (gantt.config.min_column_width > 60) {
           gantt.ext.zoom.zoomIn();
           // gantt.render();
@@ -169,7 +169,7 @@ export default class Gantt extends Component {
         }
       }
 
-      if (zoom_level == 2) {
+      if (zoom_level === 2) {
         if (gantt.config.min_column_width > 130) {
           gantt.ext.zoom.zoomIn();
           gantt.config.min_column_width = 30;
@@ -181,7 +181,7 @@ export default class Gantt extends Component {
         }
       }
 
-      if (zoom_level == 3) {
+      if (zoom_level === 3) {
         if (gantt.config.min_column_width > 120) {
           gantt.ext.zoom.zoomIn();
           gantt.config.min_column_width = 30;
@@ -193,7 +193,7 @@ export default class Gantt extends Component {
         }
       }
 
-      if (zoom_level == 4) {
+      if (zoom_level === 4) {
         if (gantt.config.min_column_width > 60) {
           gantt.ext.zoom.zoomIn();
           gantt.config.min_column_width = 90;
@@ -215,9 +215,18 @@ export default class Gantt extends Component {
       levels: [
         {
           name: "day",
-          scale_height: 27,
+          scale_height: 50,
           min_column_width: 80,
-          scales: [{ unit: "day", step: 1, format: "%d %M" }],
+          scales: [
+            { unit: "day", step: 1, format: "%d %M" },
+            // {
+            //   unit: "day",
+            //   step: 1,
+            //   format: function (date) {
+            //     return "1|2|3|4|5|6|7|8";
+            //   },
+            // },
+          ],
         },
         {
           name: "week",
@@ -278,7 +287,22 @@ export default class Gantt extends Component {
           name: "year",
           scale_height: 50,
           min_column_width: 30,
-          scales: [{ unit: "year", step: 1, format: "%Y" }],
+          scales: [
+            { unit: "year", step: 1, format: "%Y" },
+            {
+              unit: "quarter",
+              step: 1,
+              format: function (date) {
+                var dateToStr = gantt.date.date_to_str("%M");
+                var endDate = gantt.date.add(
+                  gantt.date.add(date, 3, "month"),
+                  -1,
+                  "day"
+                );
+                return dateToStr(date) + " - " + dateToStr(endDate);
+              },
+            },
+          ],
         },
       ],
       useKey: "ctrlKey",
@@ -321,16 +345,41 @@ export default class Gantt extends Component {
   }
 
   componentDidMount() {
-    // if (gantt.env.isFF) {
-    //   console.log("if");
-    //   gantt.event(this.ganttContainer, "wheel", onMouseWheel);
-    // } else {
-    //   console.log("else");
-    //   gantt.event(this.ganttContainer, "wheel", onMouseWheel);
-    // }
-    // gantt.ext.zoom.attachEvent("onAfterZoom", function (level, config) {
-    //  console.log('Zoom chnage')
+    gantt.plugins({
+      auto_scheduling: true,
+    });
+
+    // gantt.templates.scale_cell_class = function (date) {
+    //   if (!gantt.isWorkTime(date)) {
+    //     return "weekend";
+    //   }
+    // };
+    // gantt.templates.timeline_cell_class = function (item, date) {
+    //   if (!gantt.isWorkTime(date)) {
+    //     return "weekend";
+    //   }
+    // };
+
+    // gantt.config.work_time = true;
+
+    gantt.config.auto_scheduling = true;
+    gantt.config.auto_scheduling_initial = false;
+
+    // gantt.config.auto_scheduling_strict = true;
+    // gantt.config.auto_scheduling_compatibility = true;
+
+    // gantt.config.date_format = "%d-%m-%Y";
+
+    // gantt.attachEvent("onBeforeAutoSchedule", function () {
+    //   console.log("sssssssssssssssss");
+    //   return true;
     // });
+    // gantt.attachEvent(
+    //   "onAfterTaskAutoSchedule",
+    //   function (task, new_date, constraint, predecessor) {
+    //     console.log("22222222222222");
+    //   }
+    // );
 
     gantt.config.xml_date = "%Y-%m-%d %H:%i";
     const { tasks } = this.props;
@@ -365,37 +414,37 @@ export default class Gantt extends Component {
       // {  label: "Predecessors", width: 100 },
       { name: "add", label: "", width: 44 },
     ];
-    gantt.attachEvent("onLinkCreated", function (link) {
-      // your code here
-      var source_task = gantt.getTask(link.source);
-      var target_task = gantt.getTask(link.target);
-      let duration = target_task.duration;
-      console.log(duration);
-      switch (link.type) {
-        case "0":
-          target_task.start_date = source_task.end_date;
-          target_task.duration = duration;
-          console.log("target_task.duration: ", target_task.duration);
+    // gantt.attachEvent("onLinkCreated", function (link) {
+    //   // your code here
+    //   var source_task = gantt.getTask(link.source);
+    //   var target_task = gantt.getTask(link.target);
+    //   let duration = target_task.duration;
+    //   console.log(duration);
+    //   switch (link.type) {
+    //     case "0":
+    //       target_task.start_date = source_task.end_date;
+    //       target_task.duration = duration;
+    //       console.log("target_task.duration: ", target_task.duration);
 
-          break;
-        case "1":
-          target_task.start_date = source_task.start_date;
-          target_task.duration = duration;
-          break;
-        case "2":
-          target_task.end_date = source_task.end_date;
-          target_task.duration = duration;
-          break;
-        case "3":
-          target_task.end_date = source_task.start_date;
-          target_task.duration = duration;
-          break;
-        default:
-          break;
-      }
-      // gantt.render();
-      return true;
-    });
+    //       break;
+    //     case "1":
+    //       target_task.start_date = source_task.start_date;
+    //       target_task.duration = duration;
+    //       break;
+    //     case "2":
+    //       target_task.end_date = source_task.end_date;
+    //       target_task.duration = duration;
+    //       break;
+    //     case "3":
+    //       target_task.end_date = source_task.start_date;
+    //       target_task.duration = duration;
+    //       break;
+    //     default:
+    //       break;
+    //   }
+    //   // gantt.render();
+    //   return true;
+    // });
 
     //enable colum reordring
     gantt.config.reorder_grid_columns = true;
@@ -683,47 +732,83 @@ export default class Gantt extends Component {
     // gantt.config.end_date = "2021-09-14";
 
     // gantt.config.show_progress = false;
-    gantt.config.smart_scales = true;
+    // gantt.config.smart_scales = true;
 
     gantt.templates.progress_text = function (start, end, task) {
       return '<svg height="20" width="20"><circle cx="5" cy="5" r="4" stroke="black" stroke-width="1" fill="red" />Sorry, your browser does not support inline SVG.</svg> ';
     };
-    function task_operations(task_id, action) {
+
+    const task_operations = (task_id, action) => {
       var task = gantt.getTask(task_id);
 
-      if (action == "left_decrease") {
+      if (action === "left_decrease") {
         task.start_date = gantt.date.add(task.start_date, -1, "day");
       }
-      if (action == "left_increase") {
+      if (action === "left_increase") {
         task.start_date = gantt.date.add(task.start_date, 1, "day");
       }
-      if (action == "right_decrease") {
+      if (action === "right_decrease") {
         task.end_date = gantt.date.add(task.end_date, -1, "day");
       }
-      if (action == "right_increase") {
+      if (action === "right_increase") {
         task.end_date = gantt.date.add(task.end_date, 1, "day");
       }
 
       gantt.render();
-    }
-
-    gantt.templates.leftside_text = function (start, end, task) {
-      var buttons = `<div onClick=task_operations("${task.id}","right_decrease")><svg height="20" width="20" ><circle cx="5" cy="5" r="4" stroke="black" stroke-width="1" fill="red" />Sorry, your browser does not support inline SVG.</svg> </div>`;
-      if (task.type != "project") return buttons;
     };
 
-    // gantt.templates.rightside_text = function (start, end, task) {
-    //   var buttons =
-    //     '<input type=button value="-" onclick=task_operations(' +
-    //     task.id +
-    //     ',"right_decrease")>' +
-    //     '<input type=button value="+" onclick=task_operations(' +
-    //     task.id +
-    //     ',"right_increase")>';
-    //   if (task.type != "project") return buttons;
-    // };\
+    gantt.templates.leftside_text = function (start, end, task) {
+      if (task.type !== "project" && task.type !== "milestone") {
+        var buttons = `
+        <i id="left_F_${task.id}" class="fa fa-plus" aria-hidden="true"></i>
+        <i id="left_S_${task.id}" class="fa fa-minus" aria-hidden="true"></i>`;
 
-   
+        // <svg id="left_${task.id}" height="20" width="20" ><circle cx="5" cy="5" r="4" stroke="black" stroke-width="1" fill="red" />Sorry, your browser does not support inline SVG.</svg>
+        // <svg id="right_${task.id} height="20" width="20" ><circle cx="5" cy="5" r="4" stroke="black" stroke-width="1" fill="red" />Sorry, your browser does not support inline SVG.</svg>`;
+        setTimeout(() => {
+          if (document.getElementById("left_F_" + task.id)) {
+            document
+              .getElementById("left_F_" + task.id)
+              .addEventListener("click", function (e) {
+                task_operations(task.id, "left_decrease");
+              });
+          }
+          if (document.getElementById("left_S_" + task.id)) {
+            document
+              .getElementById("left_S_" + task.id)
+              .addEventListener("click", function (e) {
+                task_operations(task.id, "left_increase");
+              });
+          }
+        }, 200);
+        return buttons;
+      }
+    };
+
+    gantt.templates.rightside_text = function (start, end, task) {
+      if (task.type !== "project" && task.type !== "milestone") {
+        var buttons = `
+        <i id="right_F_${task.id}" class="fa fa-plus" aria-hidden="true"></i>
+        <i id="right_S_${task.id}" class="fa fa-minus" aria-hidden="true"></i>`;
+        setTimeout(() => {
+          if (document.getElementById("right_F_" + task.id)) {
+            document
+              .getElementById("right_F_" + task.id)
+              .addEventListener("click", function (e) {
+                task_operations(task.id, "right_increase");
+              });
+          }
+          if (document.getElementById("right_S_" + task.id)) {
+            document
+              .getElementById("right_S_" + task.id)
+              .addEventListener("click", function (e) {
+                task_operations(task.id, "right_decrease");
+              });
+          }
+        }, 200);
+        return buttons;
+      }
+    };
 
     // gantt.config.autosize = "xy";
 

@@ -33,12 +33,6 @@
     margin-top: -2px;
     overflow: hidden;
   }
-
-  .gantt_cal_light {
-    left: unset !important;
-    right: 0px !important;
-    height: 100% !important;
-  }
   
   .weekend {
     background: orange !important;
