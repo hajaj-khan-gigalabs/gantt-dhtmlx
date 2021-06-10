@@ -235,7 +235,7 @@ export default class Gantt extends Component {
           scales: [
             {
               unit: "week",
-              step: 1,
+              step: 2,
               format: function (date) {
                 var dateToStr = gantt.date.date_to_str("%d %M");
                 var endDate = gantt.date.add(date, -6, "day");
@@ -349,37 +349,33 @@ export default class Gantt extends Component {
       auto_scheduling: true,
     });
 
-    // gantt.templates.scale_cell_class = function (date) {
-    //   if (!gantt.isWorkTime(date)) {
-    //     return "weekend";
-    //   }
-    // };
-    // gantt.templates.timeline_cell_class = function (item, date) {
-    //   if (!gantt.isWorkTime(date)) {
-    //     return "weekend";
-    //   }
-    // };
-
     // gantt.config.work_time = true;
 
     gantt.config.auto_scheduling = true;
     gantt.config.auto_scheduling_initial = false;
 
-    // gantt.config.auto_scheduling_strict = true;
-    // gantt.config.auto_scheduling_compatibility = true;
+    gantt.config.auto_scheduling_compatibility = true;
+    gantt.config.auto_scheduling_strict = true;
 
     // gantt.config.date_format = "%d-%m-%Y";
-
-    // gantt.attachEvent("onBeforeAutoSchedule", function () {
-    //   console.log("sssssssssssssssss");
-    //   return true;
-    // });
-    // gantt.attachEvent(
-    //   "onAfterTaskAutoSchedule",
-    //   function (task, new_date, constraint, predecessor) {
-    //     console.log("22222222222222");
-    //   }
-    // );
+    //
+    gantt.attachEvent("onBeforeAutoSchedule", function () {
+      console.log("onBeforeAutoSchedule");
+      return true;
+    });
+    gantt.attachEvent("onAfterAutoSchedule", function () {
+      console.log("onAfterAutoSchedule");
+    });
+    gantt.attachEvent("onBeforeTaskAutoSchedule", function () {
+      console.log("onBeforeTaskAutoSchedule");
+      return true;
+    });
+    gantt.attachEvent(
+      "onAfterTaskAutoSchedule",
+      function (task, new_date, constraint, predecessor) {
+        console.log("onAfterTaskAutoSchedule");
+      }
+    );
 
     gantt.config.xml_date = "%Y-%m-%d %H:%i";
     const { tasks } = this.props;
@@ -414,6 +410,10 @@ export default class Gantt extends Component {
       // {  label: "Predecessors", width: 100 },
       { name: "add", label: "", width: 44 },
     ];
+
+    //enable colum reordring
+    gantt.config.reorder_grid_columns = true;
+
     // gantt.attachEvent("onLinkCreated", function (link) {
     //   // your code here
     //   var source_task = gantt.getTask(link.source);
@@ -445,9 +445,6 @@ export default class Gantt extends Component {
     //   // gantt.render();
     //   return true;
     // });
-
-    //enable colum reordring
-    gantt.config.reorder_grid_columns = true;
 
     // for task vertically move from timeline
     // gantt.config.columns.push({
@@ -813,6 +810,7 @@ export default class Gantt extends Component {
     // gantt.config.autosize = "xy";
 
     gantt.init(this.ganttContainer);
+    this.add_gridHideAndShow_button();
     this.initGanttDataProcessor();
     gantt.parse(tasks);
   }
@@ -853,14 +851,13 @@ export default class Gantt extends Component {
         gantt.config.show_grid = !gantt.config.show_grid;
         gantt.render();
       });
-    }, 5000);
+    }, 500);
   };
 
   render() {
     const { zoom } = this.props;
 
     this.setZoom(zoom);
-    this.add_gridHideAndShow_button();
 
     return (
       <>
