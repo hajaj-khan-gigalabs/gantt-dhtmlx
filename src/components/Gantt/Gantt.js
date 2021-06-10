@@ -235,7 +235,7 @@ export default class Gantt extends Component {
           scales: [
             {
               unit: "week",
-              step: 2,
+              step: 1,
               format: function (date) {
                 var dateToStr = gantt.date.date_to_str("%d %M");
                 var endDate = gantt.date.add(date, -6, "day");
